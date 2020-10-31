@@ -6,6 +6,11 @@ from regression_model.processing import preprocessors as pp
 from regression_model.processing import features
 from regression_model.config import config
 
+import logging
+
+
+_logger = logging.getLogger(__name__)
+
 
 price_pipe = Pipeline(
     [
@@ -31,8 +36,10 @@ price_pipe = Pipeline(
             "categorical_encoder",
             pp.CategoricalEncoder(variables=config.CATEGORICAL_VARS),
         ),
-        ("log_transformer",
-            features.LogTransformer(variables=config.NUMERICALS_LOG_VARS)),
+        (
+            "log_transformer",
+            features.LogTransformer(variables=config.NUMERICALS_LOG_VARS),
+        ),
         (
             "drop_features",
             pp.DropUnecessaryFeatures(variables_to_drop=config.DROP_FEATURES),
